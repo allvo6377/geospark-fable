@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>GeoSpark Onestop Solution | Spatial intelligence for Kenya</title>
+<link rel="icon" type="image/png" href="assets/logo-full.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Instrument+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f3; --surface:rgba(255,255,255,0.66); --card:rgba(255,255,255,0.82);
+  --ink:#141d12; --muted:#5b6656; --line:rgba(20,29,18,0.1);
+  --accent:#2E6417; --emerald:#0025CC; --glow:0.55;
+  --navbg:rgba(245,247,248,0);
+}
+body[data-theme="dark"]{
+  --bg:#070d13; --surface:rgba(255,255,255,0.05); --card:rgba(16,26,36,0.6);
+  --ink:#e9f1f6; --muted:#8ba1ae; --line:rgba(233,241,246,0.1);
+  --accent:#7FBF4D; --emerald:#5C7CFF;
+}
+html{scroll-behavior:smooth;overflow-x:hidden}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif;transition:background .5s ease,color .5s ease;overflow-x:clip}
+::selection{background:var(--accent);color:#fff}
+@keyframes gsDrift{0%,100%{transform:translate(0,0) rotate(0deg)}50%{transform:translate(-26px,16px) rotate(-1deg)}}
+@keyframes gsDrift2{0%,100%{transform:translate(0,0) scale(1)}50%{transform:translate(20px,-12px) scale(1.03)}}
+@keyframes gsFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-12px)}}
+@keyframes gsMarquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+@keyframes gsPulse{0%{box-shadow:0 0 0 0 rgba(46,100,23,0.45)}70%{box-shadow:0 0 0 12px rgba(46,100,23,0)}100%{box-shadow:0 0 0 0 rgba(46,100,23,0)}}
+@keyframes gsVeilOut{0%{opacity:1}100%{opacity:0;visibility:hidden}}
+.gs-veil{animation:gsVeilOut .45s ease .05s forwards}
+@keyframes gsBlink{0%,100%{opacity:1}50%{opacity:.25}}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:3px;border-radius:10px}
+.gs-link{position:relative;color:var(--muted);text-decoration:none;transition:color .25s ease;padding-bottom:3px}
+.gs-link:hover{color:var(--ink)}
+.gs-link::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:2px;background:var(--accent);border-radius:2px;transform:scaleX(0);transform-origin:left;transition:transform .34s cubic-bezier(.22,1,.36,1)}
+.gs-link:hover::after,.gs-link.gs-active::after{transform:scaleX(1)}
+.gs-link.gs-active{color:var(--ink)}
+.gs-flink{transition:color .22s ease,transform .22s ease}
+.gs-flink:hover{color:#9FD16B !important;transform:translateX(3px)}
+.gs-social{transition:color .22s ease,border-color .22s ease,background .22s ease,transform .22s ease}
+.gs-social:hover{color:#fff !important;border-color:rgba(127,191,77,0.5) !important;background:rgba(127,191,77,0.14) !important;transform:translateY(-2px)}
+@media (max-width:860px){.gs-foot-grid{grid-template-columns:1fr 1fr !important}}
+@media (max-width:520px){.gs-foot-grid{grid-template-columns:1fr !important}}
+.gs-tcard{transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease}
+.gs-tcard:hover{transform:translateY(-5px);box-shadow:11px 11px 0 var(--accent)}
+@keyframes gsSvcFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+.gs-svc > div,.gs-svc > h3,.gs-svc > p,.gs-svc > span{position:relative;z-index:1}
+.gs-svc::before{content:"";position:absolute;inset:0;z-index:0;opacity:0;transition:opacity .45s ease;pointer-events:none}
+.gs-svc:hover::before{opacity:1}
+#services[data-cardhover="Glow"] .gs-svc::before{background:radial-gradient(360px circle at 28% -5%,rgba(46,100,23,0.13),transparent 70%)}
+#services[data-cardhover="Spotlight"] .gs-svc::before{background:radial-gradient(220px circle at var(--mx,50%) var(--my,0%),rgba(46,100,23,0.18),transparent 70%);transition:opacity .3s ease}
+#services[data-cardhover="Border trace"] .gs-svc::after{content:"";position:absolute;inset:0;border-radius:22px;padding:1.6px;background:conic-gradient(from 0deg,var(--accent),var(--emerald),var(--accent),var(--emerald),var(--accent));-webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;opacity:0;transition:opacity .4s ease;pointer-events:none}
+#services[data-cardhover="Border trace"] .gs-svc:hover::after{opacity:1;animation:gsSpin 3.2s linear infinite}
+@keyframes gsSpin{to{transform:rotate(360deg)}}
+#services[data-cardhover="Stroke draw"] .gs-svc > div:first-child > span:first-child svg path,#services[data-cardhover="Stroke draw"] .gs-svc > div:first-child > span:first-child svg rect{stroke-dasharray:140}
+#services[data-cardhover="Stroke draw"] .gs-svc:hover > div:first-child > span:first-child svg path,#services[data-cardhover="Stroke draw"] .gs-svc:hover > div:first-child > span:first-child svg rect{animation:gsRedraw .75s ease}
+@keyframes gsRedraw{from{stroke-dashoffset:140}to{stroke-dashoffset:0}}
+.gs-svc > div:first-child > span:first-child{transition:transform .45s cubic-bezier(.22,1,.36,1),box-shadow .45s ease}
+.gs-svc > div:first-child > span:first-child > svg{animation:gsSvcFloat 6s ease-in-out infinite}
+.gs-svc:nth-child(2) > div:first-child > span:first-child > svg{animation-delay:1s}
+.gs-svc:nth-child(3) > div:first-child > span:first-child > svg{animation-delay:2s}
+.gs-svc:nth-child(4) > div:first-child > span:first-child > svg{animation-delay:3s}
+.gs-svc:nth-child(5) > div:first-child > span:first-child > svg{animation-delay:4s}
+.gs-svc:nth-child(6) > div:first-child > span:first-child > svg{animation-delay:5s}
+.gs-svc:hover > div:first-child > span:first-child{transform:scale(1.12) rotate(-6deg);box-shadow:0 10px 22px -8px rgba(46,100,23,0.45)}
+.gs-svc > div:first-child > span:last-child{transition:color .3s ease}
+.gs-svc:hover > div:first-child > span:last-child{color:var(--accent)}
+.gs-svc > span:last-child svg{transition:transform .32s cubic-bezier(.22,1,.36,1)}
+.gs-svc:hover > span:last-child svg{transform:translateX(5px)}
+@media (max-width:820px){.gs-navlinks{display:none !important}.gs-burger{display:flex !important}}
+@media (max-width:560px){.gs-navcta{display:none !important}}
+@media (max-width:900px){.gs-coords{display:none !important}}
+@media (max-width:760px){.gs-cta-grid{grid-template-columns:1fr !important}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important}html{scroll-behavior:auto}}
+</style>
+</helmet>
+<div ref="{{rootRef}}" style="min-height:100vh;position:relative">
+  <div id="gs-veil" class="gs-veil" aria-hidden="true" style="position:fixed;inset:0;z-index:99999;pointer-events:none;background:var(--bg)"></div>
+
+  <!-- mouse-responsive lighting -->
+  <div ref="{{lightRef}}" style="position:fixed;inset:0;pointer-events:none;z-index:1;opacity:var(--glow);transition:opacity .4s ease"></div>
+
+  <!-- ============ NAV ============ -->
+  <nav ref="{{navRef}}" style="position:fixed;top:14px;left:0;right:0;margin:0 auto;box-sizing:border-box;z-index:1100;width:calc(100% - 28px);max-width:1180px;display:flex;align-items:center;justify-content:space-between;padding:9px 12px 9px 22px;border-radius:999px;background:var(--surface);backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);border:1px solid var(--line);box-shadow:0 8px 24px -14px rgba(20,29,18,0.22);transition:box-shadow .35s ease,background .35s ease,border-color .35s ease">
+    <a href="#top" style="display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--ink)">
+      <svg width="36" height="36" viewBox="0 0 100 100" fill="none" aria-hidden="true">
+        <defs><linearGradient id="gsMarkNav" x1="0" y1="0" x2="0.55" y2="1"><stop offset="0" stop-color="#2E6417"></stop><stop offset="1" stop-color="#0025CC"></stop></linearGradient></defs>
+        <path d="M60 26 A30 30 0 1 0 60 86" stroke="url(#gsMarkNav)" stroke-width="19"></path>
+        <rect x="55" y="2" width="13" height="15" fill="#2E6417"></rect>
+        <rect x="72" y="10" width="15" height="28" fill="#2E6417"></rect>
+        <rect x="57" y="88" width="13" height="12" fill="#0025CC"></rect>
+      </svg>
+      <span style="display:flex;flex-direction:column;line-height:1.05">
+        <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;letter-spacing:-0.02em;color:var(--accent)">GeoSpark</span>
+        <span style="font-family:'IBM Plex Mono',monospace;font-size:8.5px;letter-spacing:0.22em;color:var(--muted);text-transform:uppercase">Onestop Solution</span>
+      </span>
+    </a>
+    <div style="display:flex;align-items:center;gap:24px;font-size:14px;font-weight:500" class="gs-navlinks">
+      <a href="#top" class="gs-link gs-active">Home</a>
+      <a href="Services.dc.html" class="gs-link">Services</a>
+      <a href="About.dc.html" class="gs-link">About</a>
+      <a href="Projects.dc.html" class="gs-link">Projects</a>
+      <a href="#team" class="gs-link">Team</a>
+      <a href="Contact.dc.html" class="gs-link">Contact</a>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px">
+      <button onClick="{{toggleTheme}}" aria-label="Toggle theme" style="width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(12px);color:var(--ink);cursor:pointer;display:flex;align-items:center;justify-content:center" style-hover="border-color:var(--accent)">
+        <sc-if value="{{isDark}}" hint-placeholder-val="{{false}}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
+        </sc-if>
+        <sc-if value="{{isLight}}" hint-placeholder-val="{{true}}">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"></path></svg>
+        </sc-if>
+      </button>
+      <a href="Contact.dc.html" data-magnetic="1" class="gs-navcta" style="display:inline-flex;align-items:center;gap:8px;padding:10px 20px;border-radius:999px;background:linear-gradient(120deg,var(--accent),var(--emerald));color:#fff;font-size:13.5px;font-weight:600;text-decoration:none;box-shadow:0 6px 20px -6px rgba(46,100,23,0.5);transition:box-shadow .3s ease" style-hover="box-shadow:0 10px 28px -6px rgba(46,100,23,0.65)">Request Proposal</a>
+      <button onClick="{{toggleMenu}}" aria-label="Menu" class="gs-burger" style="display:none;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(12px);color:var(--ink);cursor:pointer;align-items:center;justify-content:center">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M3 6h18M3 12h18M3 18h18"></path></svg>
+      </button>
+    </div>
+    <sc-if value="{{menuOpen}}" hint-placeholder-val="{{false}}">
+      <div style="position:fixed;top:80px;left:12px;right:12px;z-index:60;background:var(--card);backdrop-filter:blur(20px);border:1px solid var(--line);border-radius:18px;padding:10px;display:flex;flex-direction:column;box-shadow:0 24px 60px -20px rgba(0,0,0,0.35)">
+        <a href="#top" onClick="{{closeMenu}}" style="padding:13px 16px;border-radius:12px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:500" style-hover="background:var(--surface)">Home</a>
+        <a href="Services.dc.html" onClick="{{closeMenu}}" style="padding:13px 16px;border-radius:12px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:500" style-hover="background:var(--surface)">Services</a>
+        <a href="About.dc.html" onClick="{{closeMenu}}" style="padding:13px 16px;border-radius:12px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:500" style-hover="background:var(--surface)">About</a>
+        <a href="#team" onClick="{{closeMenu}}" style="padding:13px 16px;border-radius:12px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:500" style-hover="background:var(--surface)">Team</a>
+        <a href="Contact.dc.html" onClick="{{closeMenu}}" style="padding:13px 16px;border-radius:12px;color:var(--ink);text-decoration:none;font-size:15px;font-weight:500" style-hover="background:var(--surface)">Contact</a>
+      </div>
+    </sc-if>
+  </nav>
+
+  <!-- ============ HERO ============ -->
+  <header id="top" style="position:relative;min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:140px clamp(20px,4vw,56px) 80px;overflow:hidden">
+    <!-- survey grid -->
+    <div style="position:absolute;inset:0;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:64px 64px;opacity:0.5;mask-image:radial-gradient(ellipse 90% 80% at 50% 40%,black 30%,transparent 75%)"></div>
+    <!-- animated contour field -->
+    <div style="position:absolute;inset:-8%;animation:gsDrift 26s ease-in-out infinite">
+      <svg width="100%" height="100%" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <g stroke="var(--accent)" opacity="0.16">
+          <path d="M180,120 C320,60 520,90 600,180 C680,270 640,380 520,420 C400,460 240,430 180,330 C120,230 100,170 180,120 Z" stroke-width="1.2"></path>
+          <path d="M220,150 C330,100 490,125 555,195 C620,265 590,350 495,383 C400,416 275,392 225,312 C175,232 160,190 220,150 Z" stroke-width="1"></path>
+          <path d="M260,180 C340,140 460,160 510,212 C560,264 540,322 470,347 C400,372 310,353 272,295 C234,237 225,210 260,180 Z" stroke-width="1"></path>
+          <path d="M300,212 C355,185 430,197 464,231 C498,265 484,304 438,321 C392,338 336,325 312,287 C288,249 282,230 300,212 Z" stroke-width="0.9"></path>
+        </g>
+        <g stroke="var(--accent)" opacity="0.15">
+          <path d="M760,430 C900,360 1080,400 1140,510 C1200,620 1140,730 990,760 C840,790 700,730 670,620 C640,510 660,480 760,430 Z" stroke-width="1.2"></path>
+          <path d="M790,470 C900,415 1040,445 1090,530 C1140,615 1095,700 980,725 C865,750 755,703 730,617 C705,531 715,507 790,470 Z" stroke-width="1"></path>
+          <path d="M825,510 C905,470 1005,492 1042,554 C1079,616 1046,678 962,696 C878,714 800,680 782,617 C764,554 770,537 825,510 Z" stroke-width="1"></path>
+          <path d="M862,548 C917,522 986,537 1010,580 C1034,623 1012,666 954,678 C896,690 843,667 831,624 C819,581 825,566 862,548 Z" stroke-width="0.9"></path>
+        </g>
+        <g stroke="var(--accent)" opacity="0.1">
+          <path d="M700,60 C860,10 1060,50 1130,150 C1200,250 1150,340 1010,360 C870,380 720,330 690,230 C660,130 640,80 700,60 Z" stroke-width="1"></path>
+          <path d="M740,95 C870,55 1030,90 1086,170 C1142,250 1100,320 986,336 C872,352 752,312 728,232 C704,152 692,112 740,95 Z" stroke-width="0.9"></path>
+        </g>
+      </svg>
+    </div>
+    <!-- soft brand glows -->
+    <div style="position:absolute;top:-15%;right:-8%;width:620px;height:620px;border-radius:50%;background:radial-gradient(circle,rgba(46,100,23,0.16),transparent 65%);animation:gsDrift2 20s ease-in-out infinite"></div>
+    <div style="position:absolute;bottom:-20%;left:-10%;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle,rgba(46,100,23,0.14),transparent 65%);animation:gsDrift2 24s ease-in-out infinite reverse"></div>
+
+    <!-- floating coordinates -->
+    <sc-if value="{{showCoords}}" hint-placeholder-val="{{true}}">
+      <div class="gs-coords" style="position:absolute;inset:0;pointer-events:none;font-family:'IBM Plex Mono',monospace;font-size:10.5px;letter-spacing:0.14em;color:var(--muted);opacity:0.7">
+        <div style="position:absolute;top:19%;left:7%;display:flex;align-items:center;gap:8px;animation:gsFloat 7s ease-in-out infinite"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--emerald);animation:gsPulse 3s infinite"></span>-1.2921° · 36.8219° NAIROBI</div>
+        <div style="position:absolute;top:31%;right:9%;animation:gsFloat 9s ease-in-out infinite 1s">GRID · UTM ZONE 37S</div>
+        <div style="position:absolute;bottom:33%;left:11%;animation:gsFloat 8s ease-in-out infinite 2s">RTK FIX · H ±8 MM <span style="animation:gsBlink 1.6s infinite">▮</span></div>
+        <div style="position:absolute;bottom:24%;right:13%;display:flex;align-items:center;gap:8px;animation:gsFloat 10s ease-in-out infinite .5s"><span style="width:6px;height:6px;border-radius:1.5px;background:var(--emerald)"></span>0.0236° · 37.9062° KENYA</div>
+      </div>
+    </sc-if>
+
+    <div style="position:relative;z-index:2;max-width:1180px;margin:0 auto;width:100%">
+      <div data-reveal="0" style="display:inline-flex;align-items:center;gap:10px;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(12px);font-size:12.5px;font-weight:500;color:var(--muted);margin-bottom:28px">
+        <span style="width:7px;height:7px;border-radius:2px;background:var(--accent);animation:gsPulse 2.6s infinite"></span>
+        Licensed land surveyors &amp; built-environment specialists · Nairobi, Kenya
+      </div>
+      <h1 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(46px,7.4vw,96px);line-height:1.02;letter-spacing:-0.035em;font-weight:700;margin:0 0 26px;max-width:13ch">
+        Innovation meets
+        <span style="background:linear-gradient(95deg,var(--accent),var(--emerald));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent"> Kenya&rsquo;s future.</span>
+      </h1>
+      <p data-reveal="120" style="font-size:clamp(16px,1.6vw,19px);line-height:1.65;color:var(--muted);max-width:56ch;margin:0 0 38px">
+        GeoSpark Onestop Solution is an integrated practice spanning land survey, construction, urban planning, interior design, landscaping and real-estate management, from precision geospatial data to finished, sustainable spaces.
+      </p>
+      <div data-reveal="180" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;margin-bottom:64px">
+        <a href="#services" data-magnetic="1" style="display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:999px;background:linear-gradient(120deg,var(--accent),var(--emerald));color:#fff;font-size:15px;font-weight:600;text-decoration:none;box-shadow:0 12px 32px -8px rgba(46,100,23,0.55);transition:box-shadow .3s ease" style-hover="box-shadow:0 18px 42px -8px rgba(46,100,23,0.7)">
+          Explore our services
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+        <a href="Contact.dc.html" data-magnetic="1" style="display:inline-flex;align-items:center;gap:10px;padding:15px 30px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(12px);color:var(--ink);font-size:15px;font-weight:600;text-decoration:none;transition:border-color .3s ease" style-hover="border-color:var(--accent)">Contact us</a>
+      </div>
+      <div data-reveal="240" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:18px;overflow:hidden;max-width:820px">
+        <div style="background:var(--surface);backdrop-filter:blur(12px);padding:20px 24px">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;letter-spacing:-0.02em"><span data-count="120" data-suffix="+">120+</span></div>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:4px">Projects delivered</div>
+        </div>
+        <div style="background:var(--surface);backdrop-filter:blur(12px);padding:20px 24px">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;letter-spacing:-0.02em"><span data-count="15" data-suffix="">15</span></div>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:4px">Counties served</div>
+        </div>
+        <div style="background:var(--surface);backdrop-filter:blur(12px);padding:20px 24px">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;letter-spacing:-0.02em"><span data-count="98" data-suffix="%">98%</span></div>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:4px">On-time delivery</div>
+        </div>
+        <div style="background:var(--surface);backdrop-filter:blur(12px);padding:20px 24px">
+          <div style="font-family:'Space Grotesk',sans-serif;font-size:32px;font-weight:700;letter-spacing:-0.02em">±8<span style="font-size:18px;color:var(--muted)">mm</span></div>
+          <div style="font-size:12.5px;color:var(--muted);margin-top:4px">RTK accuracy</div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ============ SERVICES ============ -->
+  <section id="services" style="position:relative;padding:110px clamp(20px,4vw,56px);max-width:1290px;margin:0 auto">
+    <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">What we do</div>
+    <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,4vw,52px);letter-spacing:-0.03em;font-weight:700;line-height:1.08;margin:0 0 14px;max-width:20ch">One partner, from boundary beacon to finished build.</h2>
+    <p data-reveal="100" style="color:var(--muted);font-size:16.5px;line-height:1.65;max-width:60ch;margin:0 0 54px">Six integrated service lines that keep your project on one accountable team: surveyed, planned, built and managed.</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(310px,1fr));gap:20px">
+
+      <a href="Contact.dc.html" data-reveal="0" class="gs-svc" style="position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px 28px;overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.28);border-color:rgba(46,100,23,0.4)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px">
+          <span style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(46,100,23,0.14),rgba(46,100,23,0.14));display:flex;align-items:center;justify-content:center;color:var(--accent)">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.2-6-10a6 6 0 1 1 12 0c0 4.8-6 10-6 10Z"></path><circle cx="12" cy="11" r="2.2"></circle></svg>
+          </span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">01</span>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600;letter-spacing:-0.015em;margin:0 0 10px">Land Survey &amp; Geospatial</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0 0 18px">Topographic, cadastral, engineering and boundary surveys, GIS analysis, drone/UAV mapping and land valuation. Data-driven decisions for planning, development and titling.</p>
+        <span style="font-size:13.5px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px">Enquire <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+
+      <a href="Contact.dc.html" data-reveal="60" class="gs-svc" style="position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px 28px;overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.28);border-color:rgba(46,100,23,0.4)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px">
+          <span style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(46,100,23,0.14),rgba(46,100,23,0.14));display:flex;align-items:center;justify-content:center;color:var(--accent)">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18M6 21V8l6-4 6 4v13M10 21v-5h4v5"></path></svg>
+          </span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">02</span>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600;letter-spacing:-0.015em;margin:0 0 10px">Construction</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0 0 18px">Residential, commercial and affordable housing, roads, bridges and water infrastructure, renewable-energy projects, delivered on time and on budget with sustainable practice.</p>
+        <span style="font-size:13.5px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px">Enquire <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+
+      <a href="Contact.dc.html" data-reveal="120" class="gs-svc" style="position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px 28px;overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.28);border-color:rgba(46,100,23,0.4)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px">
+          <span style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(46,100,23,0.14),rgba(46,100,23,0.14));display:flex;align-items:center;justify-content:center;color:var(--accent)">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1"></rect><rect x="14" y="3" width="7" height="5" rx="1"></rect><rect x="14" y="12" width="7" height="9" rx="1"></rect><rect x="3" y="16" width="7" height="5" rx="1"></rect></svg>
+          </span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">03</span>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600;letter-spacing:-0.015em;margin:0 0 10px">Urban Planning</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0 0 18px">Land-use planning, urban design, EIAs, county planning support, transportation planning and slum upgrading. Smart land use for Kenya&rsquo;s growing towns and cities.</p>
+        <span style="font-size:13.5px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px">Enquire <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+
+      <a href="Contact.dc.html" data-reveal="0" class="gs-svc" style="position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px 28px;overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.28);border-color:rgba(46,100,23,0.4)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px">
+          <span style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(46,100,23,0.14),rgba(46,100,23,0.14));display:flex;align-items:center;justify-content:center;color:var(--accent)">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18v-8a2 2 0 0 1 2-2h2v4h8V8h2a2 2 0 0 1 2 2v8"></path><path d="M2 18h20v2H2z"></path><path d="M8 8V6a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
+          </span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">04</span>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600;letter-spacing:-0.015em;margin:0 0 10px">Interior Design</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0 0 18px">Space planning, design consultancy, custom furniture and fittings, sustainable materials and full project management. Style meets practicality for homes and offices.</p>
+        <span style="font-size:13.5px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px">Enquire <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+
+      <a href="Contact.dc.html" data-reveal="60" class="gs-svc" style="position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px 28px;overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.3);border-color:rgba(46,100,23,0.45)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px">
+          <span style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(46,100,23,0.14),rgba(46,100,23,0.14));display:flex;align-items:center;justify-content:center;color:var(--accent)">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M11 20A7 7 0 0 1 4 13c0-4 3-8 8-10 5 2 8 6 8 10a7 7 0 0 1-7 7"></path><path d="M12 21V11M12 14c-1.5-1-3-1.2-4.5-1M12 12c1.3-1.4 2.8-2 4.5-2"></path></svg>
+          </span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">05</span>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600;letter-spacing:-0.015em;margin:0 0 10px">Landscaping</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0 0 18px">Garden design, hardscaping, water-efficient irrigation systems and ongoing maintenance, bringing green, thriving outdoor spaces to homes, offices and public areas.</p>
+        <span style="font-size:13.5px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px">Enquire <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+
+      <a href="Contact.dc.html" data-reveal="120" class="gs-svc" style="position:relative;display:block;text-decoration:none;color:var(--ink);background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px 28px;overflow:hidden;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease,border-color .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.28);border-color:rgba(46,100,23,0.4)">
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:44px">
+          <span style="width:48px;height:48px;border-radius:14px;background:linear-gradient(135deg,rgba(46,100,23,0.14),rgba(46,100,23,0.14));display:flex;align-items:center;justify-content:center;color:var(--accent)">
+            <svg width="23" height="23" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 7.5a4.5 4.5 0 1 1-6.4 6.3L3 19.4V21h1.6l5.6-5.6"></path><path d="M14.5 4 20 9.5M16 11l4-4"></path></svg>
+          </span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:11px;color:var(--muted)">06</span>
+        </div>
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:21px;font-weight:600;letter-spacing:-0.015em;margin:0 0 10px">Real Estate Management</h3>
+        <p style="font-size:14.5px;line-height:1.6;color:var(--muted);margin:0 0 18px">Property consulting, feasibility studies and valuations, tenant and lease management, and asset optimisation for residential, commercial and industrial portfolios.</p>
+        <span style="font-size:13.5px;font-weight:600;color:var(--accent);display:inline-flex;align-items:center;gap:6px">Enquire <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></span>
+      </a>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT / MISSION ============ -->
+  <section id="about" style="position:relative;padding:110px clamp(20px,4vw,56px);overflow:hidden">
+    <div style="position:absolute;inset:0;background:linear-gradient(150deg,rgba(46,100,23,0.06),rgba(46,100,23,0.07));border-top:1px solid var(--line);border-bottom:1px solid var(--line)"></div>
+    <div style="position:absolute;inset:-6%;opacity:0.6;animation:gsDrift2 30s ease-in-out infinite">
+      <svg width="100%" height="100%" viewBox="0 0 1200 600" preserveAspectRatio="xMidYMid slice" fill="none" aria-hidden="true">
+        <g stroke="var(--accent)" opacity="0.1">
+          <path d="M-50,420 C200,300 420,480 640,380 C860,280 1020,420 1260,340" stroke-width="1.2"></path>
+          <path d="M-50,470 C200,350 420,530 640,430 C860,330 1020,470 1260,390" stroke-width="1"></path>
+          <path d="M-50,520 C200,400 420,580 640,480 C860,380 1020,520 1260,440" stroke-width="0.9"></path>
+        </g>
+      </svg>
+    </div>
+    <div style="position:relative;max-width:1180px;margin:0 auto;display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:56px;align-items:start">
+      <div>
+        <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">Who we are</div>
+        <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,46px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 22px">Building smart, green and resilient spaces.</h2>
+        <p data-reveal="100" style="color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 18px"><strong style="color:var(--ink);font-weight:600">Mission:</strong> To shape Kenya&rsquo;s future with sustainable, innovative solutions in infrastructure, spaces and communities.</p>
+        <p data-reveal="140" style="color:var(--muted);font-size:16px;line-height:1.7;margin:0 0 34px"><strong style="color:var(--ink);font-weight:600">Vision:</strong> To be Kenya&rsquo;s leading partner in building smart, green and resilient spaces.</p>
+        <a data-reveal="180" href="#team" style="display:inline-flex;align-items:center;gap:8px;font-size:14.5px;font-weight:600;color:var(--accent);text-decoration:none">Meet the founders <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+        <div data-reveal="0" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:24px;transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .3s ease" style-hover="transform:translateY(-4px);border-color:rgba(46,100,23,0.4)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px">01</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin-bottom:6px">Innovation</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.55">Pushing boundaries for better solutions.</div>
+        </div>
+        <div data-reveal="60" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:24px;transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .3s ease" style-hover="transform:translateY(-4px);border-color:rgba(46,100,23,0.45)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--emerald);letter-spacing:0.18em;margin-bottom:12px">02</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin-bottom:6px">Sustainability</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.55">Building for Kenya&rsquo;s tomorrow.</div>
+        </div>
+        <div data-reveal="120" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:24px;transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .3s ease" style-hover="transform:translateY(-4px);border-color:rgba(46,100,23,0.4)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--accent);letter-spacing:0.18em;margin-bottom:12px">03</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin-bottom:6px">Integrity</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.55">Transparent, ethical delivery.</div>
+        </div>
+        <div data-reveal="180" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:20px;padding:24px;transition:transform .35s cubic-bezier(.22,1,.36,1),border-color .3s ease" style-hover="transform:translateY(-4px);border-color:rgba(46,100,23,0.45)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:10.5px;color:var(--emerald);letter-spacing:0.18em;margin-bottom:12px">04</div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:17px;margin-bottom:6px">Collaboration</div>
+          <div style="font-size:13.5px;color:var(--muted);line-height:1.55">Partnering for growth.</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TECHNOLOGY MARQUEE ============ -->
+  <section style="padding:72px 0;overflow:hidden">
+    <div style="text-align:center;font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--muted);text-transform:uppercase;margin-bottom:34px">Field-to-finish technology</div>
+    <div style="position:relative;mask-image:linear-gradient(90deg,transparent,black 12%,black 88%,transparent)">
+      <div style="display:flex;gap:14px;width:max-content;animation:gsMarquee 30s linear infinite">
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">GNSS</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">RTK</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">GIS</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">Remote Sensing</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">LiDAR</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">Drone Mapping</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">AutoCAD</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">ArcGIS</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">QGIS</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">DroneDeploy</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">GNSS</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">RTK</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">GIS</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">Remote Sensing</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">LiDAR</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">Drone Mapping</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">AutoCAD</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">ArcGIS</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">QGIS</span>
+        <span style="padding:12px 24px;border-radius:999px;border:1px solid var(--line);background:var(--surface);backdrop-filter:blur(10px);font-family:'Space Grotesk',sans-serif;font-size:15px;font-weight:500;white-space:nowrap">DroneDeploy</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TEAM ============ -->
+  <section id="team" style="padding:110px clamp(20px,4vw,56px);max-width:1290px;margin:0 auto">
+    <div data-reveal="0" style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">Leadership</div>
+    <h2 data-reveal="60" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,4vw,52px);letter-spacing:-0.03em;font-weight:700;line-height:1.08;margin:0 0 54px;max-width:22ch">Surveyors, builders and financiers. One founding team.</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:20px">
+
+      <div data-reveal="0" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.25)">
+        <img src="assets/team-josh.jpg" alt="Joshua Njuguna" style="width:84px;height:84px;border-radius:22px;object-fit:cover;object-position:top;border:1px solid var(--line);margin-bottom:22px">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;letter-spacing:-0.015em;margin:0 0 4px">Joshua Njuguna</h3>
+        <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:14px">Co-Founder · Land Surveyor</div>
+        <p style="font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 16px">BTech Surveying Technology (Technical University of Kenya). Leads GeoSpark&rsquo;s push to become Kenya&rsquo;s leader in geospatial solutions and sustainable infrastructure.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">TOPOGRAPHIC</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">CADASTRAL</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">GIS</span>
+        </div>
+      </div>
+
+      <div data-reveal="60" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.25)">
+        <img src="assets/team-alvin.jpg" alt="Alvin Maingi" style="width:84px;height:84px;border-radius:22px;object-fit:cover;object-position:top;border:1px solid var(--line);margin-bottom:22px">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;letter-spacing:-0.015em;margin:0 0 4px">Alvin Maingi</h3>
+        <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:14px">Co-Founder · Land Surveyor</div>
+        <p style="font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 16px">BTech Surveying Technology (Technical University of Kenya). Leads the charge for modern geospatial practice and innovative construction across Kenya.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">ENGINEERING</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">REMOTE SENSING</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">GIS</span>
+        </div>
+      </div>
+
+      <div data-reveal="120" style="background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--line);border-radius:22px;padding:30px;transition:transform .35s cubic-bezier(.22,1,.36,1),box-shadow .35s ease" style-hover="transform:translateY(-6px);box-shadow:0 24px 48px -18px rgba(46,100,23,0.25)">
+        <img src="assets/team-maggie.jpg" alt="Margaret Kimani" style="width:84px;height:84px;border-radius:22px;object-fit:cover;object-position:top;border:1px solid var(--line);margin-bottom:22px">
+        <h3 style="font-family:'Space Grotesk',sans-serif;font-size:20px;font-weight:600;letter-spacing:-0.015em;margin:0 0 4px">Margaret Kimani</h3>
+        <div style="font-size:13px;font-weight:600;color:var(--accent);margin-bottom:14px">Co-Founder · Investment &amp; Sustainability</div>
+        <p style="font-size:14px;line-height:1.6;color:var(--muted);margin:0 0 16px">Investment banker structuring deals and funding for large-scale projects, driving GeoSpark&rsquo;s adoption of green construction and energy-efficient design.</p>
+        <div style="display:flex;flex-wrap:wrap;gap:6px">
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">DEAL STRUCTURING</span>
+          <span style="font-family:'IBM Plex Mono',monospace;font-size:10px;letter-spacing:0.08em;padding:5px 10px;border-radius:999px;border:1px solid var(--line);color:var(--muted)">GREEN BUILDING</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section style="padding:40px clamp(20px,4vw,56px) 20px;max-width:1290px;margin:0 auto">
+    <div data-reveal="0" style="display:inline-flex;align-items:center;padding:8px 18px;border-radius:999px;border:1px solid var(--line);font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:var(--accent);margin-bottom:26px">What clients say</div>
+    <h2 data-reveal="0" style="font-family:'Space Grotesk',sans-serif;font-size:clamp(30px,4.4vw,56px);letter-spacing:-0.03em;font-weight:700;line-height:1.05;color:var(--ink);margin:0 0 clamp(36px,4vw,56px);max-width:16ch">Trusted by people building on the ground.</h2>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:clamp(20px,2.4vw,32px)">
+
+      <figure data-reveal="0" class="gs-tcard" style="margin:0;display:flex;flex-direction:column;background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--ink);border-radius:20px;padding:clamp(28px,3vw,38px);box-shadow:7px 7px 0 var(--accent)">
+        <blockquote style="margin:0;font-size:clamp(17px,1.4vw,19px);line-height:1.55;color:var(--ink)">&ldquo;GeoSpark set our boundary in a single visit and handed over a clean deed plan. The county approved it first try, no back and forth.&rdquo;</blockquote>
+        <hr style="border:none;border-top:1px solid var(--line);margin:26px 0 20px">
+        <figcaption style="font-family:'IBM Plex Mono',monospace"><span style="display:block;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);font-weight:600">Property Owner</span><span style="display:block;font-size:13px;color:var(--muted);margin-top:4px">Kiambu Subdivision</span></figcaption>
+      </figure>
+
+      <figure data-reveal="60" class="gs-tcard" style="margin:0;display:flex;flex-direction:column;background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--ink);border-radius:20px;padding:clamp(28px,3vw,38px);box-shadow:7px 7px 0 var(--accent)">
+        <blockquote style="margin:0;font-size:clamp(17px,1.4vw,19px);line-height:1.55;color:var(--ink)">&ldquo;Their topographic survey was accurate to the centimetre. Our engineers designed off it with total confidence. Zero surprises on site.&rdquo;</blockquote>
+        <hr style="border:none;border-top:1px solid var(--line);margin:26px 0 20px">
+        <figcaption style="font-family:'IBM Plex Mono',monospace"><span style="display:block;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);font-weight:600">Project Engineer</span><span style="display:block;font-size:13px;color:var(--muted);margin-top:4px">Commercial Development</span></figcaption>
+      </figure>
+
+      <figure data-reveal="120" class="gs-tcard" style="margin:0;display:flex;flex-direction:column;background:var(--card);backdrop-filter:blur(16px);border:1px solid var(--ink);border-radius:20px;padding:clamp(28px,3vw,38px);box-shadow:7px 7px 0 var(--accent)">
+        <blockquote style="margin:0;font-size:clamp(17px,1.4vw,19px);line-height:1.55;color:var(--ink)">&ldquo;Clear communication from quote to title. GeoSpark explained every step and delivered ahead of schedule, which is rare in this field.&rdquo;</blockquote>
+        <hr style="border:none;border-top:1px solid var(--line);margin:26px 0 20px">
+        <figcaption style="font-family:'IBM Plex Mono',monospace"><span style="display:block;font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink);font-weight:600">Managing Director</span><span style="display:block;font-size:13px;color:var(--muted);margin-top:4px">Real Estate Firm</span></figcaption>
+      </figure>
+
+    </div>
+  </section>
+
+  <!-- CTA (shared) -->
+  <dc-import name="CtaBanner" hint-size="100%,620px"></dc-import>
+
+  <!-- FOOTER (shared) -->
+  <dc-import name="Footer" hint-size="100%,560px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2E6417&quot;,&quot;options&quot;:[&quot;#2E6417&quot;,&quot;#0025CC&quot;,&quot;#7FBF4D&quot;],&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Brand&quot;},&quot;glow&quot;:{&quot;editor&quot;:&quot;range&quot;,&quot;default&quot;:0.55,&quot;min&quot;:0,&quot;max&quot;:1,&quot;step&quot;:0.05,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;Atmosphere&quot;},&quot;showCoords&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Atmosphere&quot;},&quot;cardHover&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Glow&quot;,&quot;Border trace&quot;,&quot;Stroke draw&quot;,&quot;Spotlight&quot;],&quot;default&quot;:&quot;Glow&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Interactions&quot;,&quot;label&quot;:&quot;Card hover style&quot;}}">
+class Component extends DCLogic {
+  state = { isDark: false, menuOpen: false };
+
+  renderVals() {
+    return {
+      isDark: this.state.isDark,
+      isLight: !this.state.isDark,
+      toggleTheme: () => {
+        const next = !this.state.isDark;
+        this.setState({ isDark: next });
+        document.body.dataset.theme = next ? 'dark' : 'light';
+        try { localStorage.setItem('gs-theme', next ? 'dark' : 'light'); } catch (e) {}
+      },
+      showCoords: this.props.showCoords ?? true,
+      menuOpen: this.state.menuOpen,
+      toggleMenu: () => this.setState(s => ({ menuOpen: !s.menuOpen })),
+      closeMenu: () => this.setState({ menuOpen: false }),
+      rootRef: this.rootRef || (this.rootRef = React.createRef()),
+      navRef: this.navRef || (this.navRef = React.createRef()),
+      lightRef: this.lightRef || (this.lightRef = React.createRef()),
+    };
+  }
+
+  applyProps() {
+    const accent = this.props.accent ?? '#2E6417';
+    const glow = this.props.glow ?? 0.55;
+    document.documentElement.style.setProperty('--accent', accent);
+    document.documentElement.style.setProperty('--glow', String(glow));
+    const svc = document.getElementById('services');
+    if (svc) svc.dataset.cardhover = this.props.cardHover ?? 'Glow';
+  }
+
+  initVeil() {
+    this._veilClick = (e) => {
+      const a = e.target && e.target.closest ? e.target.closest('a[href]') : null;
+      if (!a) return;
+      const href = a.getAttribute('href') || '';
+      if (href.indexOf('.dc.html') === -1 || /^https?:/.test(href)) return;
+      if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.getAttribute('target') === '_blank') return;
+      e.preventDefault();
+      const v = document.getElementById('gs-veil');
+      if (!v) { location.href = href; return; }
+      v.style.animation = 'none';
+      v.style.transition = 'none';
+      v.style.visibility = 'visible';
+      v.style.opacity = '0';
+      void v.offsetHeight;
+      v.style.transition = 'opacity .28s ease';
+      v.style.opacity = '1';
+      setTimeout(() => { location.href = href; }, 320);
+    };
+    document.addEventListener('click', this._veilClick, true);
+    this._veilShow = (e) => {
+      if (!e.persisted) return;
+      const v = document.getElementById('gs-veil');
+      if (v) { v.style.transition = 'none'; v.style.animation = 'none'; v.style.opacity = '0'; v.style.visibility = 'hidden'; }
+    };
+    window.addEventListener('pageshow', this._veilShow);
+  }
+
+  componentDidMount() {
+    this.initVeil();
+    // theme from storage
+    let saved = null;
+    try { saved = localStorage.getItem('gs-theme'); } catch (e) {}
+    if (saved === 'dark') { this.setState({ isDark: true }); document.body.dataset.theme = 'dark'; }
+    else { document.body.dataset.theme = 'light'; }
+    this.applyProps();
+
+    const root = this.rootRef && this.rootRef.current;
+    if (!root) return;
+
+    // --- scroll reveals ---
+    const reveals = Array.from(root.querySelectorAll('[data-reveal]'));
+    const vh = window.innerHeight;
+    const toObserve = [];
+    reveals.forEach(el => {
+      const r = el.getBoundingClientRect();
+      if (r.top > vh * 0.88) {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(26px)';
+        toObserve.push(el);
+      }
+    });
+    this.io = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        const delay = parseInt(el.dataset.reveal || '0', 10);
+        el.style.transition = 'opacity .8s ease ' + delay + 'ms, transform .8s cubic-bezier(.22,1,.36,1) ' + delay + 'ms';
+        el.style.opacity = '1';
+        el.style.transform = 'translateY(0)';
+        this.io.unobserve(el);
+      });
+    }, { threshold: 0.12 });
+    toObserve.forEach(el => this.io.observe(el));
+
+    // --- animated counters ---
+    const counters = Array.from(root.querySelectorAll('[data-count]'));
+    this.cio = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const el = en.target;
+        this.cio.unobserve(el);
+        const target = parseFloat(el.dataset.count);
+        const suffix = el.dataset.suffix || '';
+        const t0 = performance.now();
+        const dur = 1500;
+        const tick = now => {
+          const p = Math.min(1, (now - t0) / dur);
+          const eased = 1 - Math.pow(1 - p, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (p < 1) requestAnimationFrame(tick);
+        };
+        requestAnimationFrame(tick);
+      });
+    }, { threshold: 0.5 });
+    counters.forEach(el => this.cio.observe(el));
+
+    // --- sticky nav background on scroll ---
+    const nav = this.navRef && this.navRef.current;
+    this.onScroll = () => {
+      if (!nav) return;
+      nav.style.boxShadow = window.scrollY > 24 ? '0 16px 40px -16px rgba(20,29,18,0.34)' : '0 8px 24px -14px rgba(20,29,18,0.22)';
+    };
+    window.addEventListener('scroll', this.onScroll, { passive: true });
+    this.onScroll();
+
+    // --- mouse-responsive lighting ---
+    const light = this.lightRef && this.lightRef.current;
+    let raf = 0, mx = window.innerWidth / 2, my = window.innerHeight / 3;
+    const paint = () => {
+      raf = 0;
+      if (!light) return;
+      const dark = document.body.dataset.theme === 'dark';
+      const a = dark ? 0.13 : 0.09;
+      light.style.background =
+        'radial-gradient(600px circle at ' + mx + 'px ' + my + 'px, rgba(46,100,23,' + a + '), transparent 70%)';
+    };
+    this.onMove = e => { mx = e.clientX; my = e.clientY; if (!raf) raf = requestAnimationFrame(paint); };
+    window.addEventListener('mousemove', this.onMove, { passive: true });
+    paint();
+
+    // --- magnetic buttons ---
+    this.magnetCleanups = [];
+    root.querySelectorAll('[data-magnetic]').forEach(btn => {
+      const move = e => {
+        const r = btn.getBoundingClientRect();
+        const dx = e.clientX - (r.left + r.width / 2);
+        const dy = e.clientY - (r.top + r.height / 2);
+        btn.style.transform = 'translate(' + dx * 0.18 + 'px,' + dy * 0.22 + 'px)';
+      };
+      const leave = () => {
+        btn.style.transition = 'transform .5s cubic-bezier(.22,1,.36,1), box-shadow .3s ease';
+        btn.style.transform = 'translate(0,0)';
+        setTimeout(() => { btn.style.transition = 'box-shadow .3s ease'; }, 500);
+      };
+      btn.addEventListener('mousemove', move);
+      btn.addEventListener('mouseleave', leave);
+      this.magnetCleanups.push(() => { btn.removeEventListener('mousemove', move); btn.removeEventListener('mouseleave', leave); });
+    });
+
+    // --- per-card spotlight tracking (used by Spotlight hover mode) ---
+    this.spotCleanups = [];
+    root.querySelectorAll('.gs-svc').forEach(card => {
+      const track = e => {
+        const r = card.getBoundingClientRect();
+        card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+        card.style.setProperty('--my', ((e.clientY - r.top) / r.height * 100) + '%');
+      };
+      card.addEventListener('mousemove', track);
+      this.spotCleanups.push(() => card.removeEventListener('mousemove', track));
+    });
+  }
+
+  componentDidUpdate() { this.applyProps(); }
+
+  componentWillUnmount() {
+    if (this.io) this.io.disconnect();
+    if (this.cio) this.cio.disconnect();
+    window.removeEventListener('scroll', this.onScroll);
+    window.removeEventListener('mousemove', this.onMove);
+    (this.magnetCleanups || []).forEach(fn => fn());
+    (this.spotCleanups || []).forEach(fn => fn());
+  }
+}
+</script>
+</body>
+</html>

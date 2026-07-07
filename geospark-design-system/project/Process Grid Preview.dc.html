@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Preview — How We Work interaction</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&amp;family=Instrument+Sans:wght@400;500;600&amp;family=IBM+Plex+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f6f7f3; --card:rgba(255,255,255,0.82);
+  --ink:#141d12; --muted:#5b6656; --line:rgba(20,29,18,0.1);
+  --accent:#2E6417; --emerald:#0025CC;
+}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:'Instrument Sans',system-ui,sans-serif}
+</style>
+</helmet>
+<div style="min-height:100vh;box-sizing:border-box;padding:70px clamp(20px,4vw,56px) 120px">
+
+  <!-- OPTION B : hover serial-number cards + scroll reveal -->
+  <section id="2a" style="max-width:1180px;margin:0 auto 110px">
+    <div style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;background:var(--ink);color:var(--bg);padding:4px 10px;border-radius:6px;margin-bottom:18px">2A — HOVER VARIANT</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">How we work — hover preview</div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,46px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 14px">A straight line from brief to handover.</h2>
+    <p style="font-size:14px;color:var(--muted);margin:0 0 46px">Hover a card. Cards fade + rise into view on scroll.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;align-items:stretch">
+      <sc-for list="{{hoverSteps}}" as="h" hint-placeholder-count="4">
+        <div onMouseEnter="{{h.enter}}" onMouseLeave="{{h.leave}}" data-hreveal="{{h.idx}}" style="box-sizing:border-box;background:var(--card);border:1px solid var(--line);border-radius:18px;padding:26px 26px 30px;overflow:hidden;opacity:{{h.op}};transform:translateY({{h.ty}});transition:opacity .7s ease,transform .7s cubic-bezier(.22,1,.36,1)">
+          <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(58px,5.4vw,84px);font-weight:500;line-height:1;letter-spacing:-0.04em;color:{{h.numColor}};transition:color .5s ease;margin-bottom:18px">{{ h.num }}</div>
+          <div style="display:inline-block;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;padding-bottom:10px;border-bottom:2px solid {{h.underline}};transition:border-color .5s ease">{{ h.title }}</div>
+          <p style="font-size:14px;color:var(--muted);line-height:1.65;margin:16px 0 0">{{ h.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- OPTION A : click-to-expand accordion grid -->
+  <section id="1a" style="max-width:1180px;margin:0 auto">
+    <div style="display:inline-block;font-family:'IBM Plex Mono',monospace;font-size:11px;letter-spacing:0.2em;background:var(--ink);color:var(--bg);padding:4px 10px;border-radius:6px;margin-bottom:18px">1A — CLICK-EXPAND VARIANT</div>
+    <div style="font-family:'IBM Plex Mono',monospace;font-size:11.5px;letter-spacing:0.28em;color:var(--accent);text-transform:uppercase;margin-bottom:16px">How we work — click preview</div>
+    <h2 style="font-family:'Space Grotesk',sans-serif;font-size:clamp(28px,3.6vw,46px);letter-spacing:-0.03em;font-weight:700;line-height:1.1;margin:0 0 14px">A straight line from brief to handover.</h2>
+    <p style="font-size:14px;color:var(--muted);margin:0 0 46px">Click a step to expand it. Click again to collapse.</p>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;align-items:start">
+      <sc-for list="{{steps}}" as="p" hint-placeholder-count="4">
+        <div onClick="{{p.toggle}}" style="cursor:pointer;box-sizing:border-box;background:{{p.bg}};border:1px solid {{p.border}};border-radius:18px;padding:26px 26px 20px;transition:background .4s ease,border-color .4s ease,box-shadow .4s ease;box-shadow:{{p.shadow}}">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;gap:12px">
+            <div style="font-family:'IBM Plex Mono',monospace;font-size:clamp(30px,3vw,42px);font-weight:500;color:{{p.numColor}};transition:color .4s ease;line-height:1">{{ p.num }}</div>
+            <span style="font-family:'IBM Plex Mono',monospace;font-size:15px;color:var(--accent);transition:transform .45s cubic-bezier(.22,1,.36,1);transform:rotate({{p.rot}});display:inline-block">+</span>
+          </div>
+          <div style="font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:19px;margin:16px 0 0">{{ p.title }}</div>
+          <div style="display:grid;grid-template-rows:{{p.rows}};transition:grid-template-rows .55s cubic-bezier(.22,1,.36,1)">
+            <div style="overflow:hidden">
+              <p style="font-size:14px;color:var(--muted);line-height:1.65;margin:14px 0 4px;opacity:{{p.fade}};transition:opacity .45s ease .12s">{{ p.desc }}</p>
+            </div>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = { active: -1, hovered: -1, revealed: {} };
+
+  componentDidMount() {
+    const io = new IntersectionObserver((entries) => {
+      entries.forEach((e) => {
+        if (e.isIntersecting) {
+          const idx = parseInt(e.target.getAttribute('data-hreveal') || '0', 10);
+          setTimeout(() => {
+            this.setState((s) => ({ revealed: { ...s.revealed, [idx]: true } }));
+          }, idx * 110);
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    document.querySelectorAll('[data-hreveal]').forEach((el) => io.observe(el));
+    this._io = io;
+  }
+  componentWillUnmount() { if (this._io) this._io.disconnect(); }
+
+  renderVals() {
+    const data = [
+      { num: '01', title: 'Scope & site visit', desc: 'We listen, walk the site and define deliverables, timeline and cost — no obligation.' },
+      { num: '02', title: 'Survey & analysis', desc: 'RTK GNSS, drone capture and GIS analysis establish the ground truth everything else builds on.' },
+      { num: '03', title: 'Design & build', desc: 'Plans, approvals and construction run under one accountable team with weekly reporting.' },
+      { num: '04', title: 'Handover & care', desc: 'Documentation, titles and ongoing management or maintenance where you need it.' },
+    ];
+    const steps = data.map((d, i) => {
+      const open = this.state.active === i;
+      return {
+        ...d,
+        toggle: () => this.setState({ active: open ? -1 : i }),
+        rows: open ? '1fr' : '0fr',
+        fade: open ? 1 : 0,
+        rot: open ? '45deg' : '0deg',
+        bg: open ? 'rgba(255,255,255,0.95)' : 'var(--card)',
+        border: open ? 'rgba(46,100,23,0.35)' : 'var(--line)',
+        shadow: open ? '0 18px 40px -20px rgba(46,100,23,0.35)' : '0 1px 0 rgba(20,29,18,0.02)',
+        numColor: open ? 'var(--accent)' : 'rgba(20,29,18,0.22)',
+      };
+    });
+    const hoverSteps = data.map((d, i) => {
+      const hov = this.state.hovered === i;
+      const shown = !!this.state.revealed[i];
+      return {
+        ...d,
+        idx: i,
+        op: shown ? 1 : 0,
+        ty: shown ? '0px' : '34px',
+        enter: () => this.setState({ hovered: i }),
+        leave: () => this.setState({ hovered: -1 }),
+        numColor: hov ? 'var(--accent)' : 'rgba(46,100,23,0.12)',
+        underline: hov ? 'var(--accent)' : 'var(--line)',
+      };
+    });
+    return { steps, hoverSteps };
+  }
+}
+</script>
+</body>
+</html>
