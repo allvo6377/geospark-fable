@@ -19,7 +19,8 @@ export const Media: CollectionConfig = {
     },
   ],
   upload: {
-    staticDir: 'media',
+    // MEDIA_DIR lets hosts with persistent volumes (e.g. Railway) relocate uploads
+    staticDir: process.env.MEDIA_DIR || 'media',
     mimeTypes: ['image/*'],
     imageSizes: [
       { name: 'thumbnail', width: 300 },

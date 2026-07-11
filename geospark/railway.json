@@ -1,0 +1,8 @@
+{
+  "$schema": "https://railway.com/railway.schema.json",
+  "deploy": {
+    "startCommand": "node scripts/railway-bootstrap.mjs",
+    "healthcheckPath": "/",
+    "healthcheckTimeout": 300
+  }
+}
