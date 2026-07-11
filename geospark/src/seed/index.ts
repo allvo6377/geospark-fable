@@ -889,7 +889,7 @@ async function seed() {
         emptyText: 'No dispatches in this category yet — check back soon.',
         backToLogLabel: 'Back to field notes',
         relatedLabel: 'Adjacent parcels',
-        metaTitle: 'Field Notes | GeoSpark Onestop Solution',
+        metaTitle: 'Field Notes',
         metaDescription:
           'Surveying, land, construction and planning in Kenya — explained by the people who set the beacons.',
       },

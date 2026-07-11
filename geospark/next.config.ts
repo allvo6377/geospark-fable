@@ -7,6 +7,11 @@ const __filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(__filename)
 
 const nextConfig: NextConfig = {
+  // Type-checking and linting run separately (tsc/eslint); skipping them in
+  // `next build` keeps builds viable on low-memory machines.
+  typescript: {
+    ignoreBuildErrors: true,
+  },
   images: {
     localPatterns: [
       {

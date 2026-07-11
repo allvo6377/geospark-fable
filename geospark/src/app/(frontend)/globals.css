@@ -13,7 +13,12 @@
   --emerald: #0025cc;
   --glow: 0.55;
   --glow-rgb: 46, 100, 23;
+}
 
+/* next/font declares --font-sans/--font-grotesk/--font-mono on <body>,
+   so the derived stacks must be declared at body level too — declaring
+   them on :root would resolve (and fail) above where the fonts exist. */
+body {
   --font-sans-stack: var(--font-sans), system-ui, sans-serif;
   --font-grotesk-stack: var(--font-grotesk), sans-serif;
   --font-mono-stack: var(--font-mono), monospace;

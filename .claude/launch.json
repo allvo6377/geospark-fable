@@ -4,7 +4,7 @@
     {
       "name": "geospark",
       "runtimeExecutable": "npm",
-      "runtimeArgs": ["run", "dev", "--prefix", "geospark"],
+      "runtimeArgs": ["start", "--prefix", "geospark"],
       "port": 3000
     }
   ]
