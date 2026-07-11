@@ -1,5 +1,8 @@
 {
   "$schema": "https://railway.com/railway.schema.json",
+  "build": {
+    "buildCommand": "npx payload migrate:create initial && npx payload migrate && npm run build"
+  },
   "deploy": {
     "startCommand": "node scripts/railway-bootstrap.mjs",
     "healthcheckPath": "/",

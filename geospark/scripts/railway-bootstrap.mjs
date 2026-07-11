@@ -1,13 +1,14 @@
 /**
  * Railway start command.
  *
- * The build runs against the seeded SQLite file bundled with the deploy
- * (DATABASE_URL=file:./geospark.db). At runtime we must use the persistent
- * volume instead, so this script:
- *   1. copies the bundled seeded DB + media to the volume on first boot only
- *   2. starts Next with DATABASE_URL/MEDIA_DIR pointing at the volume
+ * The build prerenders against a schema-only SQLite file created by
+ * `payload migrate` (see railway.json buildCommand). At runtime the real
+ * database lives on the persistent volume:
+ *   1. first boot: run migrations against the volume DB, then seed content
+ *   2. every boot: start Next with DATABASE_URL/MEDIA_DIR on the volume
  */
-import { cpSync, existsSync, mkdirSync } from 'fs'
+import { execSync } from 'child_process'
+import { existsSync, mkdirSync } from 'fs'
 import { spawn } from 'child_process'
 import path from 'path'
 
@@ -16,26 +17,22 @@ const dbTarget = path.join(DATA_DIR, 'geospark.db')
 const mediaTarget = path.join(DATA_DIR, 'media')
 
 mkdirSync(DATA_DIR, { recursive: true })
+mkdirSync(mediaTarget, { recursive: true })
 
-if (!existsSync(dbTarget) && existsSync('geospark.db')) {
-  console.log(`[bootstrap] first boot — seeding volume: geospark.db -> ${dbTarget}`)
-  cpSync('geospark.db', dbTarget)
-}
-if (!existsSync(mediaTarget)) {
-  if (existsSync('media')) {
-    console.log(`[bootstrap] first boot — copying media -> ${mediaTarget}`)
-    cpSync('media', mediaTarget, { recursive: true })
-  } else {
-    mkdirSync(mediaTarget, { recursive: true })
-  }
+const env = {
+  ...process.env,
+  DATABASE_URL: `file:${dbTarget}`,
+  MEDIA_DIR: mediaTarget,
 }
 
-const child = spawn('npx', ['next', 'start'], {
-  stdio: 'inherit',
-  env: {
-    ...process.env,
-    DATABASE_URL: `file:${dbTarget}`,
-    MEDIA_DIR: mediaTarget,
-  },
-})
+if (!existsSync(dbTarget)) {
+  console.log('[bootstrap] first boot — running migrations and seeding content')
+  execSync('npx payload migrate', { stdio: 'inherit', env })
+  execSync('npx tsx src/seed/index.ts', { stdio: 'inherit', env })
+} else {
+  // keep schema current on redeploys
+  execSync('npx payload migrate', { stdio: 'inherit', env })
+}
+
+const child = spawn('npx', ['next', 'start'], { stdio: 'inherit', env })
 child.on('exit', (code) => process.exit(code ?? 1))

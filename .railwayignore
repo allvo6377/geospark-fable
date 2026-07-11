@@ -1,0 +1,8 @@
+.git
+.claude
+GeoSpark Design System-handoff.zip
+geospark-design-system
+geospark/node_modules
+geospark/.next
+geospark/.env
+geospark/docs
