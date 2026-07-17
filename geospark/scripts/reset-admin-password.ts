@@ -51,9 +51,13 @@ async function resetAdminPassword() {
 
   if (all.totalDocs === 1) {
     const user = all.docs[0]
-    await payload.update({ collection: 'users', id: user.id, data: { password } })
+    // Only one admin exists but its email differs from the requested one.
+    // Point that account at the requested email + password so the operator can
+    // log in with exactly the credentials they asked for.
+    await payload.update({ collection: 'users', id: user.id, data: { email, password } })
     console.log(
-      `[reset-admin] No user matched ${email}; reset the only existing admin instead: ${user.email}.`,
+      `[reset-admin] No user matched ${email}; updated the only existing admin ` +
+        `(was ${user.email}) to ${email} with the new password.`,
     )
     process.exit(0)
   }
