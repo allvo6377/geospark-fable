@@ -52,6 +52,14 @@ if (process.env.RESET_ADMIN_PASSWORD) {
   console.log('[bootstrap] admin password reset complete — remove RESET_ADMIN_PASSWORD now')
 }
 
+// One-off cover-image attach. Set ATTACH_COVER in the Railway service variables
+// to attach the bundled cover to a post that has none, then REMOVE it.
+if (process.env.ATTACH_COVER) {
+  console.log('[bootstrap] ATTACH_COVER detected — attaching post cover image')
+  execSync('npx tsx scripts/attach-post-cover.ts', { stdio: 'inherit', env: toolEnv })
+  console.log('[bootstrap] cover attach complete — remove ATTACH_COVER now')
+}
+
 // Serve Next in production.
 const serveEnv = { ...process.env, ...dataEnv, NODE_ENV: 'production' }
 const child = spawn('npx', ['next', 'start'], { stdio: 'inherit', env: serveEnv })
