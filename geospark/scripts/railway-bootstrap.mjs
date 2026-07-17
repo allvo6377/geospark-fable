@@ -34,5 +34,14 @@ if (!existsSync(dbTarget)) {
   execSync('npx payload migrate', { stdio: 'inherit', env })
 }
 
+// One-off admin password reset. Set RESET_ADMIN_PASSWORD in the Railway
+// service variables (optionally RESET_ADMIN_EMAIL) to reset the admin login on
+// the next deploy, then REMOVE the variable so it doesn't run on every boot.
+if (process.env.RESET_ADMIN_PASSWORD) {
+  console.log('[bootstrap] RESET_ADMIN_PASSWORD detected — resetting admin password')
+  execSync('npx tsx scripts/reset-admin-password.ts', { stdio: 'inherit', env })
+  console.log('[bootstrap] admin password reset complete — remove RESET_ADMIN_PASSWORD now')
+}
+
 const child = spawn('npx', ['next', 'start'], { stdio: 'inherit', env })
 child.on('exit', (code) => process.exit(code ?? 1))
