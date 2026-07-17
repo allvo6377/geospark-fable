@@ -1327,6 +1327,12 @@ a.gs-cta-card:hover {
   width: 0%;
   background: linear-gradient(90deg, var(--accent), var(--emerald));
 }
+.fn-article-body {
+  display: grid;
+  grid-template-columns: minmax(0, 68ch) 1fr;
+  gap: clamp(28px, 4vw, 64px);
+  align-items: start;
+}
 .fn-article-rail {
   position: sticky;
   top: 110px;
@@ -1339,6 +1345,23 @@ a.gs-cta-card:hover {
   text-transform: uppercase;
   color: var(--muted);
 }
+/* On phones the article + rail can't sit side by side — stack to one column
+   and turn the metadata rail into a compact wrapped strip below the body. */
+@media (max-width: 860px) {
+  .fn-article-body {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 32px;
+  }
+  .fn-article-rail {
+    position: static;
+    top: auto;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 18px 32px;
+    padding-top: 22px;
+    border-top: 1px dashed var(--line);
+  }
+}
 .fn-rail-label {
   color: var(--accent);
   margin-bottom: 2px;
@@ -1350,6 +1373,7 @@ a.gs-cta-card:hover {
   line-height: 1.8;
   color: var(--ink);
   max-width: 68ch;
+  overflow-wrap: break-word;
 }
 .prose-gs > p:first-of-type::first-letter {
   font-family: var(--font-grotesk-stack);

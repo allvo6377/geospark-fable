@@ -172,14 +172,7 @@ export default async function PostPage({ params }: { params: Promise<{ slug: str
           gap: 48,
         }}
       >
-        <div
-          style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 68ch) 1fr',
-            gap: 'clamp(28px, 4vw, 64px)',
-            alignItems: 'start',
-          }}
-        >
+        <div className="fn-article-body">
           <article className="prose-gs">
             <RichText data={post.content} />
           </article>
